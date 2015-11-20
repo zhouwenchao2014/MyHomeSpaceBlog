@@ -1,0 +1,18 @@
+#content{
+	position: absolute;
+	width: 80%;
+	top: 50px;
+	left: 10%;
+	background-color: #777777;
+	border-radius: 10px;
+}
+
+#centerContent{
+	position: relative;
+	width: 90%;
+	top: 40px;
+	left: 5%;
+}
+html{
+	background-color: #444444;
+}

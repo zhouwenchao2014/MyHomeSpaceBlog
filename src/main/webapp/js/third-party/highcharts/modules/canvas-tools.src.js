@@ -411,7 +411,11 @@ if(!Array.prototype.indexOf){
 		svg.init();
 		
 		// images loaded
-		svg.ImagesLoaded = function() { 
+        /**
+         * @return {boolean}
+         * @return {boolean}
+         */
+        svg.ImagesLoaded = function() {
 			for (var i=0; i<svg.Images.length; i++) {
 				if (!svg.Images[i].loaded) return false;
 			}

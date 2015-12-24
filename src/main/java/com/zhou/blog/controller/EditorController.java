@@ -21,7 +21,7 @@ public class EditorController {
 	public void add(HttpServletRequest request,HttpServletResponse response){
 		ArticleDo articleDo=Utils.getArticleDo(request);
 		ESearch eSearch=new ESearch();
-		eSearch.createIndex(articleDo);
+		eSearch.createIndexArticle(articleDo);
 		Utils.printSuccess(null, "插入成功", response);
 	} 
 }

@@ -1,15 +1,11 @@
 package com.zhou.blog.utils;
 
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.zhou.blog.model.LoginHistory;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.lucene.queryparser.xml.QueryBuilderFactory;
-import org.elasticsearch.action.deletebyquery.DeleteByQueryRequestBuilder;
 import org.elasticsearch.action.deletebyquery.DeleteByQueryResponse;
 import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.action.index.IndexResponse;
@@ -21,7 +17,6 @@ import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.search.SearchHits;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +30,7 @@ import com.zhou.blog.model.ArticleDo;
  * @author zhouwenchao
  *
  */
+@SuppressWarnings("UnusedAssignment")
 public class ESearch {
 	
 	private Logger logger=LoggerFactory.getLogger(ESearch.class);
@@ -67,8 +63,8 @@ public class ESearch {
 		IndexRequestBuilder requestBuilder = client
 				.prepareIndex(FinalFields.ELASTIC_SEARCH_INDEX_BLOG, FinalFields.ELASTIC_SEARCH_TYPE_ARTICLE)
 				.setRefresh(true);
-		for (int i = 0; i < jsondata.size(); i++) {
-			requestBuilder.setSource(jsondata.get(i)).execute().actionGet();
+		for (String aJsondata : jsondata) {
+			requestBuilder.setSource(aJsondata).execute().actionGet();
 		}
 
 	}
@@ -93,6 +89,7 @@ public class ESearch {
 	 * @param queryBuilder
 	 * @return
 	 */
+	@SuppressWarnings("UnusedAssignment")
 	public SearchHits searcher(HttpServletRequest request) {
 		// SearchResponse searchResponse =
 		// client.prepareSearch().execute().actionGet();
@@ -116,7 +113,7 @@ public class ESearch {
 		}
 		int pageSize = request.getParameter("pageSize")==null?20:Integer.parseInt(request.getParameter("pageSize"));
 		int pageStart = request.getParameter("pageStart")==null?0:Integer.parseInt(request.getParameter("pageStart"));
-		int pageEnd = pageSize + pageStart;
+		//noinspection UnusedAssignment,UnusedAssignment
 		SearchResponse searchResponse = searchRequestBuilder.setFrom(pageStart).setSize(pageSize).setExplain(true)
 				.execute().actionGet();
 		SearchHits hits = searchResponse.getHits();
@@ -146,16 +143,22 @@ public class ESearch {
 		
 	}
 
-	public void createIndex(Object object) {
+	public void createIndexArticle(Object object) {
 		IndexRequestBuilder requestBuilder = client.prepareIndex("blog", "article").setRefresh(true);
 		ArticleDo article=(ArticleDo) object;
 		requestBuilder.setSource(Utils.generateJson(article)).execute().actionGet();
 		
 	}
+	public void createIndexLoginHistory(Object object) {
+		IndexRequestBuilder requestBuilder = client.prepareIndex("history", "loginHistory").setRefresh(true);
+		LoginHistory loginHistory=(LoginHistory) object;
+		requestBuilder.setSource(Utils.generateJsonByLoginHistory(loginHistory)).execute().actionGet();
+
+	}
 	
 	public void updateByUUid(ArticleDo article){
 		deleteByParam("uuid",article.getUuid());
-		createIndex(article);
+		createIndexArticle(article);
 	}
 	
 	public SearchHits queryByUuid(String type,String value){

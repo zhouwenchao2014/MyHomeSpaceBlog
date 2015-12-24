@@ -2,8 +2,6 @@ package com.zhou.blog.test;
 
 import java.util.Date;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.junit.Before;
@@ -105,7 +103,7 @@ public class ElasticSearchTest {
             "from dual"+
             " </foreach>"+
         ") A"+
-    "</insert>");
+    "</insert>",0,0);
 		ESearch eSearch = new ESearch();
 		eSearch.updateByUUid(article);
 	}
@@ -186,7 +184,7 @@ public class ElasticSearchTest {
 "=========5=====useTime:60424"+
 "相差甚大。由此可见Arrays.asList方法的性能不如for循环。"+
 
-"所以我们在开发的时候不一定要用java提供的方法。我们自己写的也许性能更好");
-		eSearch.createIndex(article);
+"所以我们在开发的时候不一定要用java提供的方法。我们自己写的也许性能更好",0,0);
+		eSearch.createIndexArticle(article);
 	}
 }

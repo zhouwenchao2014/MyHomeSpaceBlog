@@ -12,16 +12,16 @@
 	left: 0.5px;
 	background-color: #285056;
   -webkit-animation-name: goScroll;
-  -webkit-animation-duration: 2s;
+  -webkit-animation-duration: 1s;
   -webkit-animation-timing-function: ease-out;
   -o-animation-name: goScroll;
-  -o-animation-duration: 2s;
+  -o-animation-duration: 1s;
   -o-animation-timing-function: ease-out;
   -moz-animation-name: goScroll;
-  -moz-animation-duration: 2s;
+  -moz-animation-duration: 1s;
   -moz-animation-timing-function: ease-out;
   animation-name: goScroll;
-  animation-duration: 2s;
+  animation-duration: 1s;
   animation-timing-function: ease-out;
 }
 @-webkit-keyframes goScroll {

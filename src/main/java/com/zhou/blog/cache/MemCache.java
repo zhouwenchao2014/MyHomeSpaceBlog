@@ -53,7 +53,7 @@ public class MemCache {
 	
 	public void setMemcache(String key,Object value,int time){
 		// 将数据放入缓存
-		boolean ok=false;
+		boolean ok;
 		long times=System.currentTimeMillis()+time;
 		Date expiry=new Date(times);
 		if(time!=0){

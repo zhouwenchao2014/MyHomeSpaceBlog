@@ -1,15 +1,11 @@
 package com.zhou.blog.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
-import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,17 +22,18 @@ public class SearchController {
 	// @Autowired
 	// private HttpServletRequest httpServletRequest;
 
+	@SuppressWarnings("UnusedAssignment")
 	@RequestMapping("/elasticSearch")
 	@ResponseBody
 	public void search(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-		List<ArticleDo> articleDos = new ArrayList<ArticleDo>();
+		List<ArticleDo> articleDos;
 		ESearch eSearch = new ESearch();
 		SearchHits searchHits = eSearch.queryAll(httpServletRequest);
 		articleDos=Utils.getListFromHits(searchHits);
 		if(articleDos!=null){
 			Utils.printSuccess(articleDos, "查询成功", httpServletResponse);
 		}else {
-			Utils.printFailure(articleDos, "查询失败", httpServletResponse);
+			Utils.printFailure(null, "查询失败", httpServletResponse);
 		}	
 	}
 }

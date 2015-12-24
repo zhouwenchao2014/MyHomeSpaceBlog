@@ -5,15 +5,12 @@ import java.io.PrintWriter;
 import java.lang.reflect.Array;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.zhou.blog.model.LoginHistory;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
@@ -34,7 +31,17 @@ public class Utils {
 	public static String newUUID() {
 		return UUID.randomUUID().toString().replaceAll("-", "");
 	}
-	
+
+	public static String now(String format){
+		java.util.Date date=new java.util.Date();
+		if(StringUtils.isNoneBlank(format)){
+			format="yyyy-mm-dd HH:mm:ss";
+		}
+		SimpleDateFormat simpleDateFormat=new SimpleDateFormat(format);
+		String now=simpleDateFormat.format(date);
+		return now;
+	}
+
 	public static String randomNum(){
 		Random random=new Random();
 		String num=random.nextInt()*10000+"";
@@ -82,6 +89,22 @@ public class Utils {
 		}
 		return json;
 	}
+
+	public static String generateJsonByLoginHistory(LoginHistory loginHistory) {
+		String json = "";
+		try {
+			XContentBuilder contentBuilder = XContentFactory.jsonBuilder().startObject();
+			contentBuilder.field("loginName", loginHistory.getLoginName()+ "");
+			contentBuilder.field("ipAddress", loginHistory.getIpAddress());
+			contentBuilder.field("loginTime", loginHistory.getLoginTime() + "");
+			contentBuilder.field("type", loginHistory.getType() + "");
+			json = contentBuilder.endObject().string();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return json;
+	}
+
 	public static void printSuccess(Object object,String msg,HttpServletResponse response){
 		JsonResult result=new JsonResult();
 		result.setAttr(object);
@@ -105,7 +128,7 @@ public class Utils {
             out = response.getWriter();
             out.println(JSON.toJSONString(result, SerializerFeature.DisableCircularReferenceDetect));
         } catch (IOException e) {
-            log.error(e.getStackTrace().toString());
+            log.error(Arrays.toString(e.getStackTrace()));
         } finally {
             if (out != null) {
                 out.flush();
@@ -135,7 +158,7 @@ public class Utils {
 		String writeTime=System.currentTimeMillis()+"";
 		String updateTime="";
 		String author="zhou";
-		ArticleDo articleDo=new ArticleDo(uuid, title, writeTime, updateTime, author, content);
+		ArticleDo articleDo=new ArticleDo(uuid, title, writeTime, updateTime, author, content,0,0);
 		return articleDo;
 	}
 	
@@ -164,9 +187,9 @@ public class Utils {
 				articleDo.setAuthor(author);
 				articleDo.setContent(content);
 				articleDo.setTitle(title);
-				articleDo.setUpdateTime(updateDate==null?"":updateDate.toString());
+				articleDo.setUpdateTime(updateDate==null?"": updateDate);
 				articleDo.setUuid(uuid);
-				articleDo.setWriteTime(writeDate==null?"":writeDate.toString());
+				articleDo.setWriteTime(writeDate==null?"": writeDate);
 				articleDos.add(articleDo);
 			}
 			return articleDos;

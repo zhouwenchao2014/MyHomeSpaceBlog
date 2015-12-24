@@ -13,6 +13,25 @@ public class ArticleDo implements Serializable{
 	private String UpdateTime;
 	private String author;
 	private String content;
+	private int likeNum;
+	private int notLikeNum;
+
+	public int getLikeNum() {
+		return likeNum;
+	}
+
+	public void setLikeNum(int likeNum) {
+		this.likeNum = likeNum;
+	}
+
+	public int getNotLikeNum() {
+		return notLikeNum;
+	}
+
+	public void setNotLikeNum(int notLikeNum) {
+		this.notLikeNum = notLikeNum;
+	}
+
 	public String getUuid() {
 		return uuid;
 	}
@@ -49,16 +68,18 @@ public class ArticleDo implements Serializable{
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public ArticleDo(String uuid, String title, String writeTime, String updateTime, String author, String content) {
-		super();
+
+	public ArticleDo(String uuid, String title, String writeTime, String updateTime, String author, String content, int likeNum, int notLikeNum) {
 		this.uuid = uuid;
 		this.title = title;
 		this.writeTime = writeTime;
 		UpdateTime = updateTime;
 		this.author = author;
 		this.content = content;
+		this.likeNum = likeNum;
+		this.notLikeNum = notLikeNum;
 	}
-	public ArticleDo(){
-		
+
+	public ArticleDo() {
 	}
 }

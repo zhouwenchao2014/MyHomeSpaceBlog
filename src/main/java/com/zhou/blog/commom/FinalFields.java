@@ -7,6 +7,9 @@ public class FinalFields {
 
 	public static final String ELASTIC_SEARCH_TYPE_ARTICLE = "article"; // es的type
 															// 这里的type相当于关系型数据库mysql，和oracle的表
+	public static final String ELASTIC_SEARCH_TYPE_IP = "ip";
+
+	public static final String ELASTIC_SEARCH_LAST_TYPE = "raw";
 	
 	public static final String ELASTIC_SEARCH_IP="120.26.102.2";
 	
@@ -27,6 +30,10 @@ public class FinalFields {
 	public static final String MEM_CACHE_IP="120.26.102.2";
 
 	public static final String MEM_CACHE_PORT="11211";
+	
+	public static final String USER_NAME="zhou";
+	
+	public static final String PASS_WORD="123abc456def";
 
 	
 }
